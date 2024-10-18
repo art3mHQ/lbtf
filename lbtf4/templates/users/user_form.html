@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block title %}{{ user.username }}{% endblock %}
+{% block content %}
+  <section class="section">
+    <div class="container">
+      <h1>{{ user.username }}</h1>
+      <form class="form-horizontal"
+            method="post"
+            action="{% url 'users:update' %}">
+        {% csrf_token %}
+        {{ form|crispy }}
+        <div class="row center-align">
+          <div class="col s12 ">
+            <a href="#" class="avatar-on-profile">
+              <img src="{% static 'images/i.jpeg' %}"
+                   alt=""
+                   class="circle responsive-img" />
+              <!-- notice the "circle" class -->
+            </a>
+            <div class="avaspacer"></div>
+            <p class="setnewphoto center-align">
+              <a href="#">set new photo</a>
+            </p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="input-field col s12">
+            <input value=""
+                   placeholder=""
+                   id="id_name"
+                   name="id_name"
+                   type="text"
+                   class="validate"
+                   autocomplete="username"
+                   required="" />
+            <label for="email">New nickname</label>
+            <span class="helper-text email-helper-msg"
+                  data-error="fill this field"
+                  data-success=""></span>
+          </div>
+        </div>
+        <div class="row poscard-scripture hide-this">
+          <p>Bio:</p>
+          <form class="col s12">
+            <div class="row">
+              <div class="input-field col s12 pad-null">
+                <textarea placeholder="Placeholder"
+                          id="textarea2"
+                          class="materialize-textarea"
+                          data-length="180"></textarea>
+                <label for="textarea2">Tell about yourself</label>
+                <span class="helper-text" data-error="too long" data-success=""></span>
+              </div>
+            </div>
+            <div class="control-group">
+              <div class="controls">
+                <button type="submit" class="btn btn-primary">Update</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+  {% endblock %}

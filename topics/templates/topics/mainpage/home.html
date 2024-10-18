@@ -1,0 +1,296 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block content %}
+  <!--Main layout-->
+  <!--  MAIN  MAIN  MAIN  -->
+  {% if messages %}
+    {% for message in messages %}
+      <div class="container">
+        <p>{{ message }}</p>
+      </div>
+    {% endfor %}
+  {% endif %}
+  <main role="main" id="mainContent">
+    <!-- SECTION HOW IT WORKS -->
+    <section class="section section-how">
+      <div class="container center-align">
+        <h5>
+          Welcome111 to <i>first ever co-lerning dating</i> site!
+        </h5>
+        <br />
+        <div class="row">
+          <h6>
+            <u>How it works:</u>
+            <h6>
+              <div class="col offset-s1 s9 offset-m2 m8 left-align">
+                <ol>
+                  <li>Create a topic with a course or book you want to study!</li>
+                  <li>Offer place (online / offline) and schedule.</li>
+                  <li>Start working with people of same interest, and accomplish using mutual involvement alchemy.</li>
+                </ol>
+                <p class="center-align">
+                  Or just check <u>topics</u> you may love and join that <u>folks</u> ⇩
+                </p>
+                <p class="center-align">...аnd may the Force be with you!</p>
+              </div>
+            </div>
+          </div>
+        </section>
+        <!-- SECTION LIST -->
+        <section class="section section-list">
+          <div class="row">
+            <div class="container wide-container">
+              <div class="row">
+                <!--  Csrd fo topic -->
+                {% for topic in qs %}
+                  <div class="col s12 m6 l4 center-align">
+                    <div class="card small z-depth-0">
+                      <div class="card-image card-img-custom">
+                        <img src="{{ topic.topic_image.url }}" class="responsive-img" />
+                        <!-- <span class="card-title">
+                    </span> -->
+                        <div class="participants-badge">
+                          <span class="badge deep-orange white-text">1/<strong>{{ topic.nuber_of_participants }}</strong></span>
+                        </div>
+                      </div>
+                      <div class="card-content">
+                        <a href="{% url 'profiles:profile-view' topic.poster.id %}"
+                           class="avatar-on-card">
+                          <img src="{{ topic.poster.avatar.url }}"
+                               alt=""
+                               class="circle responsive-img" />
+                          <!-- notice the "circle" class -->
+                        </a>
+                        <div class="row">
+                          <div class="col s3"></div>
+                          <div class="col s9">
+                            <a href="{% url 'topics:topic_detail' topic.id %}"
+                               class="waves-effect waves-light btn-small btn-flat z-depth-0 right bordbtn ">Join</a>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <h6 class="truncate topic-title">
+                            <strong>{{ topic.title }}</strong>
+                          </h6>
+                        </div>
+                      </div>
+                      <div class="card-small-data center-align">
+                        <div class="col s4 add-data-cards">
+                          <p class="truncate">
+                            <i class="tiny material-icons blue-grey-text text-lighten-1 icon-card">people_outline</i> 1/<strong>{{ topic.nuber_of_participants }}</strong> {{ topic.get_attending_type_display }}
+                          </p>
+                        </div>
+                        <div class="col s4 add-data-cards">
+                          <p>
+                            <i class="tiny material-icons blue-grey-text text-lighten-1 icon-card">place</i> {{ topic.time_zone.modified_truncked_zone }}
+                          </p>
+                        </div>
+                        <div class="col s4 add-data-cards">
+                          <p>
+                            <i class="tiny material-icons blue-grey-text text-lighten-1 icon-card">translate</i> {{ topic.language }}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                {% endfor %}
+                <div class="col s12 m6 l4 center-align">
+                  <div class="card small z-depth-0">
+                    <div class="card-image">
+                      <img src="{% static 'images/hitch.jpeg' %}" />
+                    </div>
+                    <div class="card-content">
+                      <a href="#" class="avatar-on-card">
+                        <img src="{% static 'images/photo_2021-10-20 18.13.33.jpeg' %}"
+                             alt=""
+                             class="circle responsive-img" />
+                        <!-- notice the "circle" class -->
+                      </a>
+                      <div class="row">
+                        <div class="col s3"></div>
+                        <div class="col s9">
+                          <a class="waves-effect waves-light btn-small btn-flat z-depth-0 right bordbtn">Join</a>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <h6 class="truncate topic-title">
+                          <strong>Reading Hithhikers guide together</strong>
+                        </h6>
+                      </div>
+                      <div class="card-small-data row">
+                        <div class="col s4">
+                          <p class="truncate">
+                            <i class="tiny material-icons blue-grey-text text-lighten-1 icon-card">people_outline</i> Offline/Online
+                          </p>
+                        </div>
+                        <div class="col s4">
+                          <p>
+                            <i class="tiny material-icons blue-grey-text text-lighten-1 icon-card">place</i> Moscow
+                          </p>
+                        </div>
+                        <div class="col s4">
+                          <p class="">
+                            <i class="tiny material-icons blue-grey-text text-lighten-1 icon-card">translate</i> Eng
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col s12 m6 l4 center-align">
+                  <div class="card small z-depth-0">
+                    <div class="card-image">
+                      <img src="{% static 'images/sicp.jpg' %}" class="responsive-img" />
+                    </div>
+                    <div class="card-content">
+                      <div class="row">
+                        <div class="col s3">
+                          <a href="#" class="avatar-on-card1">
+                            <img src="{% static 'images/i.jpeg' %}"
+                                 alt=""
+                                 class="circle responsive-img" />
+                            <!-- notice the "circle" class -->
+                          </a>
+                        </div>
+                        <div class="col s3"></div>
+                        <div class="col s6">
+                          <a class="waves-effect waves-light btn-small btn-flat z-depth-0 right bordbtn">Join</a>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <h6 class="truncate topic-title">
+                          <strong>SICP co-learning</strong>
+                        </h6>
+                      </div>
+                      <div class="row card-small-data">
+                        <div class="col s4">
+                          <p class="truncate">
+                            <i class="tiny material-icons blue-grey-text text-lighten-1 icon-card">people_outline</i> 2<strong>/3</strong>
+                          </p>
+                        </div>
+                        <div class="col s4">
+                          <p>
+                            <i class="tiny material-icons blue-grey-text text-lighten-1 icon-card">place</i> UlanUde
+                          </p>
+                        </div>
+                        <div class="col s4">
+                          <p>
+                            <i class="tiny material-icons blue-grey-text text-lighten-1 icon-card">translate</i> Rus
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!--dummy cards-->
+                <div class="col s12 m6 l4 center-align">
+                  <div class="card small z-depth-0">
+                    <div class="card-image">
+                      <img src="{% static 'images/Square-pic.png' %}" class="responsive-img" />
+                    </div>
+                    <div class="card-content">
+                      <div class="row">
+                        <div class="col s3">
+                          <a href="#" class="avatar-on-card1">
+                            <img src="{% static 'images/ztbG36ElJv4.jpg' %}"
+                                 alt=""
+                                 class="circle responsive-img" />
+                            <!-- notice the "circle" class -->
+                          </a>
+                        </div>
+                        <div class="col s3"></div>
+                        <div class="col s6">
+                          <a class="waves-effect waves-light btn-small btn-flat z-depth-0 bordbtn right">Join</a>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <h6 class="truncate topic-title">
+                          <strong>Guys! Let's Learn Python !!!</strong>
+                        </h6>
+                      </div>
+                      <div class="row card-small-data">
+                        <div class="col s4">
+                          <p class="truncate">
+                            <i class="tiny material-icons blue-grey-text text-lighten-1 icon-card">people_outline</i> 3/6 Online
+                          </p>
+                        </div>
+                        <div class="col s4">
+                          <p>
+                            <i class="tiny material-icons blue-grey-text text-lighten-1 icon-card">place</i> Moldova
+                          </p>
+                        </div>
+                        <div class="col s4">
+                          <p>
+                            <i class="tiny material-icons blue-grey-text text-lighten-1 icon-card">translate</i> Rus
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col s12 m6 l4 center-align">
+                  <div class="card small z-depth-0">
+                    <div class="card-image">
+                      <img src="{% static 'images/py4e.jpg' %}" class="responsive-img" />
+                    </div>
+                    <div class="card-content">
+                      <div class="row">
+                        <div class="col s3">
+                          <a href="#" class="avatar-on-card1">
+                            <img src="{% static 'images/ztbG36ElJv4.jpg' %}"
+                                 alt=""
+                                 class="circle responsive-img" />
+                            <!-- notice the "circle" class -->
+                          </a>
+                        </div>
+                        <div class="col s3"></div>
+                        <div class="col s6">
+                          <a class="waves-effect waves-light btn-small z-depth-0 right">Join</a>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <h6 class="truncate topic-title">
+                          <strong>Guys! Let's Learn Python !!!</strong>
+                        </h6>
+                      </div>
+                      <div class="row card-small-data">
+                        <div class="col s4">
+                          <p class="truncate">
+                            <i class="tiny material-icons blue-grey-text text-lighten-1 icon-card">people_outline</i> Online
+                          </p>
+                        </div>
+                        <div class="col s4">
+                          <p>
+                            <i class="tiny material-icons blue-grey-text text-lighten-1 icon-card">place</i> Moldova
+                          </p>
+                        </div>
+                        <div class="col s4">
+                          <p>
+                            <i class="tiny material-icons blue-grey-text text-lighten-1 icon-card">translate</i> Rus
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col s12 m6 l4 center-align">
+                  <div class="card small z-depth-0">
+                    <div class="card-image">
+                      <img src="{% static 'images/Square-pic.png' %}" class="responsive-img" />
+                    </div>
+                    <div class="card-content">
+                      <p>
+                        I am a very simple card. I am good at containing small bits of information. I am convenient because I require little markup to use effectively.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+      <!--/Main layout-->
+    {% endblock content %}

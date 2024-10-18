@@ -1,0 +1,21 @@
+services:
+  antizapret-vpn:
+    environment:
+      - DNS=adguardhome
+      - ADGUARD=1
+      - OPENVPN_OPTIMIZATIONS=1
+      - OPENVPN_TLS_CRYPT=1
+    depends_on:
+      - adguardhome
+  adguardhome:
+    extends:
+      file: docker-compose.adguard.yml
+      service: adguardhome
+  ipsec:
+    extends:
+      file: docker-compose.ipsec.yml
+      service: ipsec
+  wg-easy:
+    extends:
+      file: docker-compose.wireguard.yml
+      service: wg-easy

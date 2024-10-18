@@ -1,0 +1,213 @@
+{% extends "base_not_main.html" %}
+
+{% load static %}
+
+{% block title %}User name: {{ object.user }} (my profile){% endblock %}
+{% block content %}
+  <section class="section">
+    <div class="container narrow-container">
+      <div class="row center-align">
+        <div class="col s12 ">
+          <a href="#" class="avatar-on-profile-new center-align">
+            <img src="{{ object.avatar.url }}" alt="" class="circle av-pfofile" />
+            <!-- notice the "circle" class -->
+          </a>
+        </div>
+      </div>
+      <div class="row center-align">
+        <h4>{{ object.user }}</h4>
+        {% if object.first_name %}<p>{{ object.first_name }} {{ object.last_name }}</p>{% endif %}
+      </div>
+      <div class="counters center-align">
+        <a class="mdl-chip chip pink lighten-5">
+          <span class="mdl-chip__text">Friends</span>
+          <span class="mdl-chip__contact circle  purple lighten-4 ">5</span>
+        </a>
+        <a class="mdl-chip chip purple lighten-5">
+          <span class="mdl-chip__text">Topics</span>
+          <span class="mdl-chip__contact circle amber lighten-1 white-text">{{ object.get_posts_no }}</span>
+        </a>
+        <a class="mdl-chip chip amber lighten-4">
+          <span class="mdl-chip__text">Comments</span>
+          <span class="mdl-chip__contact circle  purple lighten-3 white-text ">2</span>
+        </a>
+        <a class="mdl-chip chip deep-purple lighten-5">
+          <span class="mdl-chip__text">Likes</span>
+          <span class="mdl-chip__contact circle orange lighten-1 white-text">{{ object.get_likes_given_no }}/{{ object.get_likes_recieved_no }}</span>
+        </a>
+      </div>
+      <div class="row">
+        <div class="col s12 m1">
+          <p class="left-align">
+            <span class="grey-text">bio:</span>
+          </p>
+        </div>
+        <div class="col s12 m11">
+          <p>{{ object.bio }}</p>
+        </div>
+      </div>
+      {% if object.user == request.user %}
+        <!-- Action buttons -->
+        <div class="row">
+          <div class="col-sm-12 right">
+            <a class="btn btn-flat z-depth-0 bordbtn"
+               href="{% url 'profiles:my-profile-edit-view' %}"
+               role="button">Edit profile</a>
+            <a class="btn btn-flat z-depth-0 bordbtn"
+               href="{% url 'users:update' %}"
+               role="button">Edit username</a>
+            <a class="btn btn-flat z-depth-0 bordbtn"
+               href="{% url 'account_email' %}"
+               role="button">Edit E-Mail</a>
+            <!-- Your Stuff: Custom user template urls -->
+          </div>
+        </div>
+        <!-- End Action buttons -->
+      {% endif %}
+      <hr />
+    </div>
+  </section>
+  <h5 class="center-align">User's topics</h5>
+  <section class="section section-list">
+    <div class="container wide-container">
+      <div class="row">
+        <!--dummy cards-->
+        <div class="col s12 m6 l4 center-align">
+          <div class="card small z-depth-0">
+            <div class="card-image">
+              <img src="{% static 'images/sicp.jpg' %}" class="responsive-img" />
+            </div>
+            <div class="card-content">
+              <div class="row">
+                <div class="col s3">
+                  <a href="#" class="avatar-on-card1">
+                    <img src="{% static 'images/i.jpeg' %}"
+                         alt=""
+                         class="circle responsive-img" />
+                    <!-- notice the "circle" class -->
+                  </a>
+                </div>
+                <div class="col s3"></div>
+                <div class="col s6">
+                  <a class="waves-effect waves-light btn-small z-depth-0 right">Join</a>
+                </div>
+              </div>
+              <div class="row">
+                <h6 class="truncate topic-title">
+                  <strong>dummy SICP co-learning</strong>
+                </h6>
+              </div>
+              <div class="row card-small-data">
+                <div class="col s4">
+                  <p class="truncate">
+                    <i class="tiny material-icons teal-text icon-card">people_outline</i> Offline/Online
+                  </p>
+                </div>
+                <div class="col s4">
+                  <p>
+                    <i class="tiny material-icons teal-text icon-card">place</i> UlanUde
+                  </p>
+                </div>
+                <div class="col s4">
+                  <p>
+                    <i class="tiny material-icons teal-text icon-card">translate</i> Rus
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col s12 m6 l4 center-align">
+          <div class="card small z-depth-0">
+            <div class="card-image">
+              <img src="{% static 'images/Square-pic.png' %}" class="responsive-img" />
+            </div>
+            <div class="card-content">
+              <div class="row">
+                <div class="col s3">
+                  <a href="#" class="avatar-on-card1">
+                    <img src="{% static 'images/ztbG36ElJv4.jpg' %}"
+                         alt=""
+                         class="circle responsive-img" />
+                    <!-- notice the "circle" class -->
+                  </a>
+                </div>
+                <div class="col s3"></div>
+                <div class="col s6">
+                  <a class="waves-effect waves-light btn-small z-depth-0 right">Join</a>
+                </div>
+              </div>
+              <div class="row">
+                <h6 class="truncate topic-title">
+                  <strong>Guys! Let's Learn Python !!!</strong>
+                </h6>
+              </div>
+              <div class="row card-small-data">
+                <div class="col s4">
+                  <p class="truncate">
+                    <i class="tiny material-icons teal-text icon-card">people_outline</i> Online
+                  </p>
+                </div>
+                <div class="col s4">
+                  <p>
+                    <i class="tiny material-icons teal-text icon-card">place</i> Moldova
+                  </p>
+                </div>
+                <div class="col s4">
+                  <p>
+                    <i class="tiny material-icons teal-text icon-card">translate</i> Rus
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col s12 m6 l4 center-align">
+          <div class="card small z-depth-0">
+            <div class="card-image">
+              <img src="{% static 'images/py4e.jpg' %}" class="responsive-img" />
+            </div>
+            <div class="card-content">
+              <div class="row">
+                <div class="col s3">
+                  <a href="#" class="avatar-on-card1">
+                    <img src="{% static 'images/ztbG36ElJv4.jpg' %}"
+                         alt=""
+                         class="circle responsive-img" />
+                    <!-- notice the "circle" class -->
+                  </a>
+                </div>
+                <div class="col s3"></div>
+                <div class="col s6">
+                  <a class="waves-effect waves-light btn-small z-depth-0 right">Join</a>
+                </div>
+              </div>
+              <div class="row">
+                <h6 class="truncate topic-title">
+                  <strong>Guys! Let's Learn Python !!!</strong>
+                </h6>
+              </div>
+              <div class="row card-small-data">
+                <div class="col s4">
+                  <p class="truncate">
+                    <i class="tiny material-icons teal-text icon-card">people_outline</i> Online
+                  </p>
+                </div>
+                <div class="col s4">
+                  <p>
+                    <i class="tiny material-icons teal-text icon-card">place</i> Moldova
+                  </p>
+                </div>
+                <div class="col s4">
+                  <p>
+                    <i class="tiny material-icons teal-text icon-card">translate</i> Rus
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+{% endblock content %}

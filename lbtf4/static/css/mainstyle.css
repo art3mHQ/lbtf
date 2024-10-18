@@ -1,0 +1,573 @@
+
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+  background: #fafafa !important; }
+
+main {
+  flex: 1 0 auto; }
+
+.wide-container {
+  width: 95%;
+  margin: 1rem auto; }
+
+.narrow-container {
+    max-width: 860px;
+    width: 43%;
+    margin: 1rem auto; }
+
+@media (max-width: 570px) {
+  .narrow-container {
+    width: 95%; } }
+
+/* MY GRADIENT LOGO */
+/* Tutorial on https://fossheim.io/writing/posts/css-text-gradient. */
+
+.gradient-text {
+  /* Fallback: Set a background color. */
+  background-color: red;
+
+  /* Create the gradient. */
+  background-image: linear-gradient(42deg, #FC466B, darkorchid);
+
+  /* Set the background size and repeat properties. */
+  background-size: 100%;
+  background-repeat: repeat;
+
+  /* Use the text as a mask for the background. */
+  /* This will show the gradient as a text color rather than element bg. */
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  -moz-background-clip: text;
+  -moz-text-fill-color: transparent;
+}
+
+
+
+header {
+  position: relative;
+  z-index: 1; }
+
+nav ul a:hover {
+  background-color: #FFFFFF; }
+
+footer .footer-logo i {
+  font-family: "Times New Roman", Times, serif; }
+
+footer ul li a {
+  line-height: 2rem; }
+
+ol { padding-left: .5em; }
+
+.offset-s1 > ol > li { padding-bottom: 0.5em; }
+
+.topic-card-title {
+  text-shadow: 2px 2px 3px #000000;
+}
+
+#topic-like-btn {
+    cursor: pointer;
+}
+
+.card-img-custom {
+    max-height: 53% !important;
+}
+
+.card {
+    padding: 0;
+    margin: 10px;
+    border-color: lightgray;
+    border-style: solid;
+    border-width: 1px;
+    height: 96.5%;
+}
+.card {
+    position: relative;
+    margin: 0.5rem 0 1rem 0;
+    background-color: #fff;
+    transition: box-shadow .25s;
+    border-radius: 2px;
+}
+
+.section-list .card-content {
+    margin-top: 3px;
+    margin-bottom: 3px;
+    padding: 9px 24px;
+}
+
+.breadcrum-taxonomy {
+    color: lightgray;
+    background-color: transparent;
+    width: 100%;
+}
+
+.bread-li {
+    color: lightgray;
+}
+
+.bread-li:last-child {
+    color: gray;
+}
+
+.bread-li::before {
+    content: ".";
+    color: gray;
+    font-size: 16px;
+    position: relative;
+    top: -5px;
+}
+
+
+.avatar-on-card {
+    z-index: 3;
+    left: 12px;
+    bottom: 69px;
+    /*display: inline-block;*/
+    position: absolute;
+    width: 115px;
+    height: 115px;
+    overflow: hidden;
+    /*border-radius: 50%;*/
+}
+
+.avatar-on-card img {
+    background:
+      linear-gradient(white, #FC466B) padding-box,
+      linear-gradient(to right, #FC466B, darkorchid) border-box;
+    border: .23rem solid transparent;
+    width: 100%;
+    height: 100%;
+    /*margin-left: -50px;*/
+    object-fit: cover;
+}
+
+.avatar-on-card1 {
+    display: inline-block;
+    width: 31%;
+    padding-bottom: 31%;
+    height: 0;
+    position: absolute;
+    left: -12%;
+    bottom: 24%;
+}
+
+.avatar-on-card1 img {
+    background:
+      linear-gradient(white, #FC466B) padding-box,
+      linear-gradient(to right, #FC466B, darkorchid) border-box;
+    border: .23rem solid transparent;
+    width:100%;
+    height:100%;
+    position: absolute;
+    clip-path: circle(50%);
+    object-fit: cover;
+}
+
+
+.topic-title {
+  margin-top: -0.25rem;
+  margin-bottom: -.6rem;
+  line-height: 111%;
+}
+
+.card-small-data {
+  margin-left: -.8rem !important;
+  margin-right: -.8rem !important;
+  font-size: .85rem;
+/*  position:absolute;
+  bottom:0;*/
+}
+
+/*.add-data-cards {
+  width: auto !important;
+}*/
+
+.cover-image-box {
+  max-height: 300px;
+  overflow: hidden;
+  padding-top: 1em;
+  margin-bottom: 1em;
+}
+
+.cover-img {
+  position: relative;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+}
+
+.avatar-on-topic1 {
+    display: inline-block;
+    width: 73%;
+    padding-bottom: 73%;
+    height: 0;
+    position: absolute;
+    left: -49px;
+    bottom: -52px;
+}
+
+.avatar-on-topic1 img {
+    background:
+      linear-gradient(white, #FC466B) padding-box,
+      linear-gradient(to right, #FC466B, darkorchid) border-box;
+    border: .23rem solid transparent;
+    width:100%;
+    max-width: 205px;
+    height:100%;
+    max-height: 205px;
+    position: absolute;
+    clip-path: circle(50%);
+    object-fit: cover;
+}
+
+.av-pfofile-ed {
+    display:block;
+    margin:auto;
+    height: 130px;
+    width: 130px;
+    object-fit: cover;
+    background:
+      linear-gradient(white, #FC466B) padding-box,
+      linear-gradient(to right, #FC466B, darkorchid) border-box;
+    border: .23rem solid transparent;
+}
+
+.av-pfofile {
+    height: 210px;
+    width: 210px;
+    object-fit: cover;
+    background:
+      linear-gradient(white, #FC466B) padding-box,
+      linear-gradient(to right, #FC466B, darkorchid) border-box;
+    border: .23rem solid transparent;
+}
+
+.nik {
+    background:
+      linear-gradient(white, #FC466B) padding-box,
+      linear-gradient(to right, #FC466B, darkorchid) border-box;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.topic-avatar-box {
+    position: relative;
+}
+
+.material-icons-bott {
+    position: relative;
+    top: 5px;
+}
+
+hr {
+    display: block;
+    height: 1px;
+    border: 0;
+    border-top: 1px solid #DCDCDC;
+    margin: 1em 0;
+    padding: 0;
+}
+
+.bordbtn {
+    border: 1px solid gray;
+    margin-bottom: 3px;
+}
+
+.bordbtn:hover {
+  background-color: lightgray;
+}
+
+.box-text-area {
+    min-height: 160px !important;
+    border: 1px solid gray !important;
+    padding: 1.8rem 12px .8rem 12px !important;
+    focus-box-shadow: none !important;
+}
+
+#descrText {
+    min-height: 160px;
+    border: 1px solid gray;
+    border-radius: 3px;
+    margin: 0;
+    padding: 1.8rem 12px 0.8rem 12px;
+    resize: none;
+}
+
+#descrText.valid {
+    border: 1px solid green;
+    box-shadow: none !important;
+}
+
+/*.selectdiv select {
+    appearance: none;
+}
+*/
+
+select[type=text] {
+    appearance: none;
+    border: 1px solid grey !important;
+    margin: 0 !important;
+    padding: 0 10px 0 12px !important;
+    box-shadow: none !important;
+    border-radius: 3px;
+    background: url('data:image/svg+xml;utf-8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>') 100% 50% no-repeat transparent;
+}
+
+select.invalid[type=text] {
+    border: 1px solid red !important;
+}
+
+select.invalid ~ .helper-text::after {
+    content: attr(data-error);
+    color: #F44336;
+}
+
+select.valid[type=text] {
+    border: 1px solid green !important;
+}
+/*
+.selectdiv:after {
+    right: 21px;
+    position: absolute;
+}*/
+
+.pad-null {
+  padding: 0 !important;
+}
+
+input.validate[type="email"]:not(.browser-default),
+input.validate[type="password"]:not(.browser-default),
+input.validate[type="text"]:not(.browser-default) {
+    border: 1px solid gray !important;
+    margin: 0 0 0 -12px !important;
+    padding: 12px 10px 0 12px !important;
+    box-shadow: none !important;
+    border-radius: 3px;
+}
+
+/*input[type=text]:not(.browser-default):focus:not([readonly]),
+input[type=password]:not(.browser-default):focus:not([readonly]),
+input[type=email]:not(.browser-default):focus:not([readonly]), {
+    border-bottom: 1px solid gray !important;
+
+}*/
+
+
+
+input.invalid[type="email"]:not(.browser-default),
+input.invalid[type="password"]:not(.browser-default),
+input.invalid[type="text"]:not(.browser-default) {
+  border: 1px solid red !important;
+  margin: 0 0 0 -12px !important;
+  padding: 12px 10px 0 12px !important;
+  border-radius: 3px;
+}
+
+input.valid[type="email"]:not(.browser-default),
+input.valid[type="password"]:not(.browser-default),
+input.valid[type="text"]:not(.browser-default) {
+  border: 1px solid green !important;
+  margin: 0 0 0 -12px !important;
+  padding: 12px 10px 0 12px !important;
+  box-shadow: none !important;
+  border-radius: 3px;
+}
+
+
+.input-field label {
+    font-weight: bold;
+    top: 18px;
+    transform: translateY(-14px);
+}
+
+
+p.setnewphoto {
+  /*margin-top: 5%;*/
+}
+
+.avaspacer {
+  /*max-height: 33%;*/
+  height: 23px;
+}
+
+.wall-img-sel {
+  min-width: 380px;
+}
+
+nav .brand-logo {
+    left: 50%;
+    -webkit-transform: translateX(-50%);
+    transform: translateX(-50%);
+}
+
+nav ul a.btn, nav ul a.btn-small, nav ul a.btn-large, nav ul a.btn-flat {
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+.participants-badge {
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+    z-index: 3;
+
+}
+
+.parts-reqs .collection-item.avatar {
+    min-height: 62px;
+}
+
+.collection-item.avatar img {
+    object-fit: cover;
+}
+
+.com-time {
+    font-size: .8em;
+}
+
+.comment-item {
+    border-bottom: none !important;
+}
+
+.comment-item .input-field {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.comment-item .input-field input.validate {
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  border-bottom: 1px solid lightgray;
+  padding-top: 0 !important;
+  height: 2rem;
+}
+
+.com-buttons {
+  display: none;
+  padding-top: 3px;
+}
+
+.comment-item .input-field input:focus ~ .com-buttons { /* can also use + in this case because it's the first element after it */
+  display: block;
+}
+
+
+.sel-userpic {
+    margin-top: -3px;
+}
+
+
+.name-form {
+    margin-bottom: 0;
+}
+
+.name-edit-inputs .input-field {
+    margin-top: -1px;
+    margin-bottom: 0;
+}
+
+.helper-text {
+    margin-bottom: -18px;
+}
+
+.name-form-invalid {
+    margin-bottom: 18px !important;
+}
+
+
+.mdl-chip {
+    padding-right: 4px;
+}
+.mdl-chip__contact {
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    font-size: 12px;
+    text-align:center;
+    line-height: 24px;
+    margin-left: 5px;
+    margin-right: 0;
+}
+
+.field-select-row .col {
+    padding: 0 1px;
+}
+
+/*.creation_form_num {
+    background:
+      linear-gradient(white, #FC466B) padding-box,
+      linear-gradient(to right, #FC466B, darkorchid) border-box;
+}*/
+
+.tiny-small {
+    font-size: 1.3rem;
+}
+
+.small-mrgn-left {
+    margin-left: 4px !important;
+}
+
+
+textarea.materialize-textarea.invalid, textarea.materialize-textarea.invalid:focus {
+    border: 1px solid red !important;
+    box-shadow: none;
+}
+
+
+.choose-img {
+    cursor: pointer;
+}
+
+.marbot-0 {
+    margin-bottom: 0 !important;
+}
+
+
+#first-comment-item {
+    margin-bottom: 18px;
+
+}
+
+.onlist-pic {
+    max-width: 34px;
+    margin-top: 5px;
+    vertical-align: middle;
+}
+
+.join-status {
+    padding: 0.1em;
+    border-radius: 0.3em;
+    white-space: normal;
+}
+
+.mrk-pending {
+    color: lightgrey;
+    background: #f48fb1;
+}
+
+.mrk-ok {
+    color: white;
+    background: #00c853;
+}
+
+.join-status-btn {
+    padding:  0.1em 0.3em 0.1em 0.3em;
+    border-radius: 0.4em;
+    border: solid 1px;
+    white-space: normal;
+    color: gray;
+}
+
+.flex-container {
+    display: flex;
+    justify-content: space-between;
+}

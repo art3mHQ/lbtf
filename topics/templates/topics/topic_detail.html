@@ -1,0 +1,435 @@
+{% extends "base_not_main.html" %}
+
+{% load static %}
+{% load i18n %}
+
+{% block content %}
+  <!--Main layout-->
+  <!--  MAIN  MAIN  MAIN  -->
+  <!-- {% if messages %}
+  {% for message in messages %}
+    <div class="container">
+      <p> {{message}} </p>
+    </div>
+
+  {% endfor %}
+
+{% endif %} -->
+  <main role="main" id="mainContent">
+    <!-- SECTION HOW IT WORKS -->
+    <section class="section section-how">
+      <div class="container center-align narrow-container">
+        <!--nav class="breadcrum-taxonomy z-depth-0">
+              <div class="nav-wrapper">
+                <div class="col s12 left-align">
+                  <a href="#!" class="breadcrumb bread-li">First</a>
+                  <a href="#!" class="breadcrumb bread-li">Second</a>
+                  <a href="#!" class="breadcrumb bread-li">Third</a>
+                </div>
+              </div>
+            </nav -->
+        <div class="cover-image-box">
+          <img src="{{ topic.topic_image.url }}" class="responsive-img cover-img" />
+          <span class="card-title"></span>
+        </div>
+        <div class="row">
+          <div class="col s4 topic-avatar-box">
+            <a href="{% url 'profiles:profile-view' topic.poster.id %}"
+               class="avatar-on-topic1">
+              <!--  -->
+              <img src="{{ topic.poster.avatar.url }}"
+                   alt=""
+                   class="circle responsive-img" />
+              <!-- notice the "circle" class -->
+            </a>
+          </div>
+          <div class="col s4">
+            <div class="left">
+              <span class="grey-text">topicstarter:</span> <span class="nik">@{{ topic.poster.user }}</span>
+            </div>
+          </div>
+          <div class="col s4 valign-wrapper right">
+            <span id='likes_number'>{{ topic.num_likes }}</span>
+            <form action="" method="post">
+              {% csrf_token %}
+              <input type="hidden"
+                     name="topic_id"
+                     value="{{ topic.id }}"
+                     id="topic-input-id" />
+              {% if profile not in topic.liked.all %}
+                <i class="tiny-small small-mrgn-left material-icons right"
+                   id="topic-like-btn">favorite_outline</i>
+              {% else %}
+                <i class="tiny-small red-text small-mrgn-left material-icons right"
+                   id="topic-like-btn">favorite</i>
+              {% endif %}
+            </form>
+            {% if  request.user == topic.poster.user %}
+              &nbsp;&nbsp;<a href="{% url 'topics:update_view_topic' topic.id %}"
+   class="waves-effect waves-light btn-flat z-depth-0 right bordbtn">Edit</a>
+            {% else %}
+              &nbsp;&nbsp;<a class="waves-effect waves-light btn-flat z-depth-0 right bordbtn">Join</a>
+            {% endif %}
+          </div>
+        </div>
+        <div class="row">
+          <h5 class="topic-title">
+            <strong>{{ topic.title }}</strong>
+          </h5>
+        </div>
+        <hr />
+        <div class="row">
+          <div class="main-features left">
+            <div class="col m6 s12">
+              <p>
+                <span class="grey-text lighten-2 left">Number of participants:</span>{{ topic.num_accepted_requests|add:"1" }}/<strong>{{ topic.nuber_of_participants }}</strong>
+              </p>
+            </div>
+            <div class="col m6 s12">
+              <p>
+                <span class="grey-text lighten-2 left">Language:</span>
+                {{ topic.language }}
+              </p>
+            </div>
+            <div class="col m6 s12">
+              <p>
+                <span class="grey-text lighten-2 left">Attending Type:</span> &nbsp;{{ topic.get_attending_type_display }}
+              </p>
+            </div>
+            <div class="col m6 s12">
+              <p>
+                <span class="grey-text lighten-2 left">Time-zone:</span>{{ topic.time_zone.timezone_char }}
+              </p>
+            </div>
+            <div class="col m6 s12">
+              <p>
+                <span class="grey-text lighten-2 left">Location:</span> &emsp;{{ topic.location }} <a href="#">show on map</a>
+              </p>
+            </div>
+            <div class="col m6 s12">
+              <p>
+                <span class="grey-text lighten-2 left">Schedule:</span> {{ topic.get_schedule_freq_display }}
+              </p>
+            </div>
+          </div>
+        </div>
+        <hr />
+        <div class="row">
+          <div class="text left">
+            <p class="left-align">{{ topic.description }}</p>
+          </div>
+        </div>
+        <hr />
+        <div class="row">
+          <h6 class="left">
+            Total requests ({{ topic.num_requests }}), participants exept topic starter <strong>({{ topic.num_accepted_requests }})</strong>
+          </h6>
+          <div class="input-field col m9 s12">
+            <h6 class="left-align">
+              <span class="join-status mrk-ok" data-badge-caption="">approved</span>
+            </h6>
+            <ul class="collection left-align parts-reqs">
+              <!-- <li class="collection-item avatar">
+          <img src="{% static 'images/d0glvoiWw.jpg' %}" alt="" class="circle" />
+          <span class="title">maru</span>
+          <p>requested on 05 dec. 2021 - <a href="#!">delete</a> </p>
+          <a href="#!" class="secondary-content"><span class="badge green white-text" data-badge-caption="">approved</span></a>
+        </li> -->
+              <li class="collection-item avatar">
+                <img src="{% static 'images/photo_2021-10-20 18.13.33.jpeg' %}"
+                     alt=""
+                     class="circle" />
+                <span class="title">guitarist</span> <span class="join-status mrk-ok" data-badge-caption="">approved</span>
+                <p class="grey-text">
+                  requested on 05 dec. 2021 - <a href="#!">delete</a>
+                </p>
+              </li>
+              {% for rqst in requests %}
+                {% if rqst.approved %}
+                  <li class="collection-item avatar">
+                    <img src="{{ rqst.user.avatar.url }}" alt="" class="circle" />
+                    <div class="flex-container">
+                      <div>
+                        <span class="title">{{ rqst.user.user }}</span>
+                        <!-- <span class="join-status mrk-ok" data-badge-caption="">approved</span> -->
+                      </div>
+                      {% if  request.user == topic.poster.user %}
+                        <a href="#"><span class="join-status-btn" data-badge-caption="">delete</span></a>
+                      {% endif %}
+                    </div>
+                    <p class="grey-text">
+                      requested {{ rqst.updated|timesince }} ago
+                      <!-- {% if  request.user == topic.poster.user%} -->
+                      <!-- <a href="#"><span class="join-status-btn" data-badge-caption="">+</span></a> -->
+                      <!-- <a href="#!">delete</a>  -->
+                      <!-- {% endif %} -->
+                    </p>
+                  </li>
+                {% endif %}
+              {% endfor %}
+            </ul>
+            <h6 class="left-align">
+              <span class="join-status mrk-pending" data-badge-caption="">pending</span>
+            </h6>
+            <ul class="collection left-align parts-reqs">
+              {% for rqst in requests %}
+                {% if rqst.approved %}
+                {% else %}
+                  <li class="collection-item avatar">
+                    <img src="{{ rqst.user.avatar.url }}" alt="" class="circle" />
+                    <div class="flex-container">
+                      <div>
+                        <span class="title">{{ rqst.user.user }}</span>
+                        <!-- <span class="join-status mrk-ok" data-badge-caption="">approved</span> -->
+                      </div>
+                      {% if  request.user == topic.poster.user %}
+                        <a href="#"><span class="join-status-btn green-text" data-badge-caption="">approve</span></a>
+                      {% endif %}
+                    </div>
+                    <p class="grey-text">requested {{ rqst.updated|timesince }} ago</p>
+                  </li>
+                {% endif %}
+              {% endfor %}
+              <li class="collection-item avatar">
+                <img src="{% static 'images/SmBDy5p7Tvs.jpg' %}" alt="" class="circle" />
+                <span class="title">lera</span>
+                <p>
+                  requested on 05 dec. 2021 - <a href="#!">approve</a>
+                </p>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <hr />
+        <div class="row">
+          {#                           <h6 class="left">Participants(3) and requests <strong> (2)</strong></h6> #}
+          <div class="input-field col s12">
+            <ul class="collapsible z-depth-0">
+              <li>
+                <div class="collapsible-header">
+                  <i class="material-icons">chat_bubble_outline</i>
+                  Comments({{ topic.num_comments }})
+                  <span class="badge"><i class="material-icons">arrow_drop_down</i> </span>
+                </div>
+                <div class="collapsible-body ">
+                  <ul class="collection left-align comments">
+                    <li class="collection-item avatar comment-item" id="first-comment-item">
+                      <i class="material-icons circle green">person</i>
+                      <div class="input-field col s12">
+                        <input placeholder="Enter your comment..." id="comment" type="text" />
+                        <div class="com-buttons">
+                          <a class="waves-effect waves-light btn-flat btn-small z-depth-0 right bordbtn"
+                             id="post-comment-btn">post</a>
+                        </div>
+                      </div>
+                    </li>
+                    {% for cmnt in comments %}
+                      <li class="collection-item avatar comment-item">
+                        <img src="{{ cmnt.user.avatar.url }}" alt="" class="circle" />
+                        <span class="title">{{ cmnt.user.first_name }}  <span class="grey-text com-time">{{ cmnt.updated }}</span></span>
+                        <p>
+                          {{ cmnt.body }}
+                          <br />
+                          &nbsp;&#x2764;&nbsp;1
+                        </p>
+                      </li>
+                    {% endfor %}
+                    <li class="collection-item avatar comment-item">
+                      <img src="{% static 'images/i.jpeg' %}" alt="" class="circle" />
+                      <span class="title">Kila  <span class="grey-text com-time">5 days ago</span></span>
+                      <p>
+                        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Consequuntur, laborum neque officia fugit iste praesentium saepe temporibus quis!
+                        <br />
+                        &nbsp;&#x2764;♡ &#x2665; &#x2661;&nbsp;1
+                      </p>
+                    </li>
+                    <li class="collection-item avatar comment-item">
+                      <i class="material-icons circle">folder</i>
+                      <span class="title">Title</span>
+                      <p>
+                        First Line
+                        <br />
+                        like
+                      </p>
+                      <a href="#!" class="secondary-content"><i class="material-icons">grade</i></a>
+                    </li>
+                    <li class="collection-item avatar comment-item">
+                      <i class="material-icons circle green">insert_chart</i>
+                      <span class="title">Title</span>
+                      <p>
+                        First Line
+                        <br />
+                        Awesome, i wanna be a part of it!
+                      </p>
+                    </li>
+                    <li class="collection-item avatar">
+                      <i class="material-icons circle red">play_arrow</i>
+                      <span class="title">Title</span>
+                      <p>
+                        First Line
+                        <br />
+                        dislike
+                      </p>
+                    </li>
+                  </ul>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </section>
+      <br />
+      <br />
+    </main>
+    <!--/Main layout-->
+  {% endblock content %}
+  {% block inline_javascript %}
+    <script>
+      let commentField = document.getElementById('comment');
+      let comButtons = document.getElementsByClassName('com-buttons')[0];
+
+      commentField.addEventListener('focus', e => {
+        comButtons.style.display = 'block';
+      })
+
+
+      document.addEventListener('DOMContentLoaded', function() {
+        var elems = document.querySelectorAll('.collapsible');
+        var instances = M.Collapsible.init(elems, {
+          // specify options here
+        });
+      });
+
+
+      // = Like unlike button mechanism js part =
+
+      const likeBtn = document.getElementById('topic-like-btn');
+      const csrf = document.getElementsByName('csrfmiddlewaretoken')[0].value;
+      const topicId = document.getElementById('topic-input-id').value;
+
+      const data = JSON.stringify({
+        'topic_id': topicId
+      })
+
+
+
+      likeBtn.addEventListener('click', e => {
+
+        // subFieldSelect.innerHTML = '<option value="" disabled selected>Choose Subfield</option>';
+
+        fetch('/topics/like/', {
+            method: 'POST',
+            credentials: 'same-origin',
+            headers: {
+              'Content-Type': 'application/json',
+              // "Content-type": "application/x-www-form-urlencoded; charset=UTF-8",
+              'X-CSRFToken': csrf
+            },
+            body: data
+          })
+          .then(resp => {
+            if (resp.ok) {
+              console.log("good Status: " + resp.status);
+
+              return resp.json().then((data) => {
+
+                // data is already json object in this case eg {"value": -1, "count": 0}
+                // console.log(data)
+                // const obj = JSON.parse(data)
+                const likeNum = document.getElementById('likes_number');
+                const likeHeart = document.getElementById('topic-like-btn');
+                const likeValue = data.value;
+                likeNum.innerHTML = data.count;
+
+                // console.log(data.value)
+
+                if (likeValue == -1) {
+                  likeHeart.innerHTML = 'favorite_outline';
+                  likeHeart.classList.remove('red-text');
+                } else if (likeValue == 1) {
+                  likeHeart.innerHTML = 'favorite';
+                  likeHeart.classList.add('red-text');
+                }
+
+              })
+
+            } else {
+              console.log("Status: " + resp.status);
+            }
+          })
+
+      });
+
+      // Add comment
+
+      const postCommentBtn = document.getElementById('post-comment-btn');
+
+      postCommentBtn.addEventListener('click', e => {
+
+        const commentText = document.getElementById('comment').value;
+
+        const commentData = JSON.stringify({
+          'topic': topicId,
+          'body': commentText,
+        });
+
+        // var newComDiv = document.createElement("li");
+        // newComDiv.classList.add("collection-item", "avatar", "comment-item");
+        // newComDiv.innerHTML = '<img src="{{ profile.avatar.url }}" alt="" class="circle" /><span class="title">{{ profile.first_name }} $ <span class="grey-text com-time"> just now</span></span><p> ${commentText} <br />&nbsp;&#x2764;&nbsp;1</p>'
+
+
+        if (commentText) {
+
+
+          // subFieldSelect.innerHTML = '<option value="" disabled selected>Choose Subfield</option>';
+          console.log('wowaweewa!')
+
+          fetch('/topics/add_comment/', {
+              method: 'POST',
+              credentials: 'same-origin',
+              headers: {
+                'Content-Type': 'application/json',
+                // "Content-type": "application/x-www-form-urlencoded; charset=UTF-8",
+                'X-CSRFToken': csrf
+              },
+              body: commentData
+            })
+            .then(resp => {
+              if (resp.ok) {
+                console.log("good Status: " + resp.status);
+
+                return resp.json().then((data) => {
+
+                  // data is already json object in this case eg {"value": -1, "count": 0}
+                  // console.log(data)
+                  // const obj = JSON.parse(data)
+                  // const likeNum = document.getElementById('likes_number');
+                  // const likeHeart = document.getElementById('topic-like-btn');
+                  // const likeValue = data.value;
+                  // likeNum.innerHTML = data.count;
+
+                  console.log(data.value)
+                  document.getElementById("first-comment-item").insertAdjacentHTML('afterend', '<li class="collection-item avatar comment-item"><img src="{{ profile.avatar.url }}" alt="" class="circle" /><span class="title">{{ profile.first_name }} <span class="grey-text com-time"> just now</span></span><p> ' + commentText + '  <br />&nbsp;&#x2764;&nbsp;1</p></li>');
+
+                  // if (likeValue == -1) {
+                  //   likeHeart.innerHTML = 'favorite_outline';
+                  //   likeHeart.classList.remove('red-text');
+                  // }
+                  // else if (likeValue == 1) {
+                  //   likeHeart.innerHTML = 'favorite';
+                  //   likeHeart.classList.add('red-text');
+                  // }
+
+                })
+
+              } else {
+                console.log("Status: " + resp.status);
+              }
+            })
+
+        }
+
+
+      });
+    </script>
+  {% endblock inline_javascript %}

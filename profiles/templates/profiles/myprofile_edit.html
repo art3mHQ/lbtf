@@ -1,0 +1,123 @@
+{% extends "base_not_main.html" %}
+
+{% load static %}
+
+{% block title %}@{{ object.user }} on LBTF{% endblock %}
+{% block content %}
+  <section class="section">
+    <div class="container narrow-container">
+      <h2>{{ object.user }}</h2>
+      <p>Edit your profile:</p>
+      <form class="col s12" action="" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="row">
+          <div class="col s12 m5">
+            <a href="#" class="">
+              <img src="{{ object.avatar.url }}"
+                   alt="userpic"
+                   class="circle av-pfofile-ed"
+                   id="blah" />
+              <!-- notice the "circle" class -->
+            </a>
+            <div class="sel-userpic center-align">
+              <a class="waves-effect waves-teal btn-flat blue-text"
+                 onclick="document.getElementById('id_avatar').click();">select new pic</a>
+            </div>
+            <input type="file"
+                   name="avatar"
+                   accept="image/*"
+                   class="clearablefileinput form-control-file"
+                   id="id_avatar"
+                   style="visibility: hidden" />
+          </div>
+          <div class="col s12 m7">
+            <div class="name-edit-inputs">
+              <div class="name-form">
+                <div class="input-field col s12">
+                  <input value="{{ object.first_name }}"
+                         type="text"
+                         class="validate"
+                         name="first_name"
+                         maxlength="50" />
+                  <label for="reciver_name">First name</label>
+                  <span class="helper-text"
+                        data-error="Заполните пожалуйста это поле"
+                        data-success=""></span>
+                </div>
+              </div>
+              <div class="">
+                <div class="input-field col s12">
+                  <input value="{{ object.last_name }}"
+                         name="last_name"
+                         type="text"
+                         class="validate address-fld"
+                         maxlength="250" />
+                  <label for="adr-res">Last name</label>
+                  <span class="helper-text"
+                        data-error="Заполните пожалуйста это поле"
+                        data-success=""></span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="poscard-scripture">
+          <p>Bio:</p>
+          <div class="input-field col s12 pad-null">
+            <textarea id="id_bio"
+                      class="materialize-textarea box-text-area"
+                      data-length="180"
+                      name="bio"
+                      cols="40"
+                      rows="10"
+                      maxlength="500">{{ object.bio }}</textarea>
+            <label for="id_bio">Tell about yourself</label>
+            <span class="helper-text" data-error="too long" data-success=""></span>
+          </div>
+          <div class="control-group">
+            <div class="controls">
+              <button type="submit" class="btn btn-primary">Update</button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </section>
+  <script>
+    // Фронтэнд штука для отображения фото стразу при выборе
+    // Show selected pic immediately
+    id_avatar.onchange = evt => {
+      const [file] = id_avatar.files
+      if (file) {
+        blah.src = URL.createObjectURL(file)
+      }
+    };
+
+    // Фронтэнд штука для отображения сообщений о недопустимом вводе
+    // Select the node that will be observed for mutations
+    const targetNodes = document.querySelectorAll(".name-edit-inputs input");
+
+    targetNodes.forEach((targetNode) => {
+
+      const observer = new MutationObserver((mutations) => {
+        mutations.forEach((mutation) => {
+          const el = mutation.target;
+          if (mutation.target.classList &&
+            mutation.target.classList.contains('invalid')) {
+            // console.log('invalid class added');
+            targetNode.parentElement.classList.add("name-form-invalid");
+          } else if (mutation.target.classList.contains('valid')) {
+            // console.log('valid class added');
+            targetNode.parentElement.classList.remove("name-form-invalid");
+          }
+        });
+      });
+
+      observer.observe(targetNode, {
+        attributes: true,
+        attributeOldValue: true,
+        attributeFilter: ['class']
+      });
+    });
+  </script>
+{% endblock content %}

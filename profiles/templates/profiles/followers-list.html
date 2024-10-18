@@ -1,0 +1,30 @@
+{% extends "base_not_main.html" %}
+
+{% load static %}
+
+{% block title %}User name: {{ object.user }} list of followers{% endblock %}
+{% block content %}
+  <section class="section">
+    <div class="container narrow-container">
+      <div class="row center-align">
+        <div class="col s12 ">
+          <a href="{% url 'profiles:profile-view' object.id %}"
+             class="avatar-on-profile-new center-align">
+            <img src="{{ object.avatar.url }}" alt="" class="circle av-pfofile" />
+            <!-- notice the "circle" class -->
+          </a>
+        </div>
+      </div>
+      <div class="row">
+        <h4>{{ object.user }}'s followers:</h4>
+        {% for prof in qs %}
+          <li>
+            <a href="{% url 'profiles:profile-view' prof.id %}">
+              <img src="{{ prof.avatar.url }}" alt="" class="circle onlist-pic" />
+              {{ prof.user }}</a>  <i>{{ prof.first_name }} {{ prof.last_name }}</i>
+            </li>
+          {% endfor %}
+        </div>
+      </div>
+    </section>
+  {% endblock content %}

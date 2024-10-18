@@ -1,0 +1,707 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block content %}
+  <!--Main layout-->
+  <!--  MAIN  MAIN  MAIN  -->
+  {% if messages %}
+    {% for message in messages %}
+      <div class="container">
+        <p>{{ message }}</p>
+      </div>
+    {% endfor %}
+  {% endif %}
+  <main role="main" id="mainContent">
+    <!-- SECTION HOW IT WORKS -->
+    <section class="section section-how">
+      <form method="post">
+        {% csrf_token %}
+        <div class="container narrow-container">
+          {% if object %}
+            <h5>Topic update form</h5>
+          {% else %}
+            <h5>New topic creation form</h5>
+          {% endif %}
+          <p>guys, please fill all fields with asteriks mark</p>
+          <hr />
+          <div class="topicname">
+            <h6>1. Enter topic's name&ast;</h6>
+            <div class="row">
+              <div class="input-field col s12">
+                <!-- note: object.name is for edit scenario opted out (blank) in case of create etc -->
+                <input value="{{ object.title }}"
+                       id="topicInputId"
+                       name="id_name"
+                       type="text"
+                       class="validate"
+                       required />
+                <label for="id_name">topic's name</label>
+                <span class="helper-text email-helper-msg"
+                      data-error="fill this please"
+                      data-success=""></span>
+              </div>
+            </div>
+          </div>
+          <div class="topic-description">
+            <h6>8. Topic's description&ast;</h6>
+            <div class="row">
+              <form>
+                <div class="input-field col s12 pad-null">
+                  <!-- gentle reminder - Эта тема (хуйня) рабоатает только при инициализации M.CharacterCounter -->
+                  <textarea id="descrText"
+                            type="text"
+                            class="materialize-textarea"
+                            data-length="160"
+                            required="">{{ object.description }}</textarea>
+                  <label for="descrText">Add details</label>
+                  <span class="helper-text" data-error="too long" data-success=""></span>
+                </div>
+              </form>
+            </div>
+          </div>
+          <div class="taxonomyselect">
+            <h6>2. Select or add topic's field&ast;</h6>
+            <div class="row field-select-row">
+              <div class="input-field col m6 s12 selectdiv">
+                <!-- TODO innitialise on load to make selection working immidiatly -->
+                <select class="browser-default required-to-select"
+                        id="fldSelId"
+                        type="text"
+                        class="validate"
+                        required>
+                  <option value="{{ object.field.id }}" disabled selected>
+                    {% if object %}
+                      {{ object.field.name }}
+                    {% else %}
+                      Choose Field
+                    {% endif %}
+                  </option>
+                  {% for field in fieldset %}<option value="{{ field.id }}">{{ field.name }}</option>{% endfor %}
+                </select>
+                <span class="helper-text" data-error="please make a choice"></span>
+              </div>
+              <div class="input-field col m6 s12">
+                <select disabled
+                        class="browser-default required-to-select"
+                        id="sub-fldSelId"
+                        type="text">
+                  <!-- TODO make selection active (not muted) (add cycle on if) maybe-->
+                  <option value="{{ object.subfield.id }}" disabled selected type="text">
+                    {% if object %}
+                      {{ object.subfield.name }}
+                    {% else %}
+                      Choose Subfield
+                    {% endif %}
+                  </option>
+                </select>
+              </div>
+            </div>
+            <div class="row">
+              <div class="input-field col s12">
+                <input value="{{ object.custom_field }}"
+                       id="customfield_name"
+                       name="customfield_name"
+                       type="text"
+                       class="validate" />
+                <label for="customfield_name">enter custom field's name</label>
+                <span class="helper-text email-helper-msg" data-error="" data-success=""></span>
+              </div>
+            </div>
+          </div>
+          <div class="wallimageselect">
+            <h6>3. Select topic's wall image</h6>
+            <div class="wall-img-sel">
+              <img src=" {% if object %} {{ object.topic_image.url }} {% else %} {% static 'images/proxy-image.png' %} {% endif %} "
+                   class="responsive-img"
+                   alt="topicpic"
+                   id="blah" />
+            </div>
+            <p>
+              <a onclick="document.getElementById('id_image').click();"
+                 class="choose-img">add image</a>
+            </p>
+            <input type="file"
+                   name="topicpic"
+                   accept="image/*"
+                   class="clearablefileinput form-control-file"
+                   id="id_image"
+                   style="visibility: hidden"
+                   data-url="no_image.jpg" />
+          </div>
+          <div class="reuniontype">
+            <h6>4. Select topic's attending type&ast;</h6>
+            <div class="input-field col s12">
+              <label></label>
+              <select class="browser-default required-to-select"
+                      id="attend_type"
+                      type="text">
+                <option value="{{ object.attending_type }}" disabled selected>
+                  {% if object %}
+                    {{ object.get_attending_type_display }}
+                  {% else %}
+                    Choose your option
+                  {% endif %}
+                </option>
+                <option value="P">Offline</option>
+                <option value="O">Online</option>
+                <option value="M">Both Offline/Online</option>
+              </select>
+              <span class="helper-text" data-error="please make a choice" data-success></span>
+            </div>
+          </div>
+          <div class="scheudule">
+            <h6>5. Select topic's scheudle frequency&ast;</h6>
+            <div class="input-field col s12">
+              <label></label>
+              <select class="browser-default required-to-select" id="frequency" type="text">
+                <option value="{{ object.schedule_freq }}" disabled selected>
+                  {% if object %}
+                    {{ object.get_schedule_freq_display }}
+                  {% else %}
+                    Choose your option
+                  {% endif %}
+                </option>
+                <option value="1">Once a week</option>
+                <option value="2">Twice a week</option>
+                <option value="3">3 times a week</option>
+                <option value="4">4 times a week</option>
+                <option value="5">5 times a week</option>
+                <option value="6">6 times a week</option>
+                <option value="7">7 times a week</option>
+                <option value="C">Custom</option>
+              </select>
+              <span class="helper-text" data-error="please make a choice"></span>
+            </div>
+          </div>
+          <div class="place-orand-timezone">
+            <h6>6. Enter location (local bar) and/or timezone&ast;</h6>
+            <div class="row marbot-0">
+              <div class="input-field col s12">
+                <input value="{{ object.location }}"
+                       placeholder=""
+                       id="location_descr"
+                       name="location_descr"
+                       type="text"
+                       class="validate"
+                       required />
+                <label for="location_descr">Enter Name of place</label>
+                <span class="helper-text" data-error="fill this field pls"></span>
+              </div>
+            </div>
+            <div class="input-field col s12">
+              <select class="browser-default" id="time_zone" type="text">
+                <option value="{{ object.time_zone.id }}" disabled selected>
+                  {% if object %}
+                    {{ object.time_zone.timezone_char }}
+                  {% else %}
+                    Your time-zone
+                  {% endif %}
+                </option>
+                {% for timezone in timezones %}<option value="{{ timezone.id }}">{{ timezone.timezone_char }}</option>{% endfor %}
+              </select>
+              <!--label for="time_zone">timezone city</label -->
+              <span class="helper-text" data-error="please make a choice"></span>
+            </div>
+          </div>
+          <div class="topic-lang">
+            <h6>7. Select topic's language&ast;</h6>
+            <div class="input-field col m4 s12">
+              <label></label>
+              <select id="language" class="browser-default required-to-select" type="text">
+                <option value="{{ object.language.id }}" disabled selected>
+                  {% if object %}
+                    {{ object.language.name }}
+                  {% else %}
+                    Choose your option
+                  {% endif %}
+                </option>
+                {% for lang in langs %}<option value="{{ lang.id }}">{{ lang.name }}</option>{% endfor %}
+              </select>
+              <span class="helper-text" data-error="please make a choice"></span>
+            </div>
+          </div>
+          <div class="participants-quantity">
+            <h6>9. Select max numbers of participants&ast;</h6>
+            <div class="input-field col m4 s12">
+              <label></label>
+              <select class="browser-default required-to-select"
+                      id="participants_number"
+                      type="text">
+                <option value="{{ object.nuber_of_participants }}" disabled selected>
+                  {% if object %}
+                    {{ object.nuber_of_participants }}
+                  {% else %}
+                    Choose your option
+                  {% endif %}
+                </option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+              </select>
+              <span class="helper-text" data-error="please make a choice"></span>
+            </div>
+          </div>
+          <br />
+          <a href=""
+             class="btn-large black white-text z-depth-0 center-align"
+             id="topic-create-btn">
+            {% if object %}
+              update
+            {% else %}
+              create
+            {% endif %}
+          topic</a>
+        </div>
+      </form>
+    </section>
+    <br />
+    <br />
+  </main>
+  <!--/Main layout-->
+{% endblock content %}
+{% block inline_javascript %}
+  <script>
+    {
+      %
+      if object %
+    }
+    // console.log("hi from object");
+    // This code is for saving uchanged image (if u didnt change do not drop to no-image)
+    document.addEventListener('DOMContentLoaded', function() {
+      let imgUrl = blah.getAttribute("src").replace(/\r?\n|\r/g, "");
+      let sliced = imgUrl.trim().slice(6);
+      // console.log("imgUrl not sliced", imgUrl);
+      // console.log(typeof imgUrl);
+      // console.log("sliced", sliced);
+      id_image.setAttribute("data-url", sliced);
+    });
+
+    {
+      %
+      endif %
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      // console.log('hello dear friends');
+      M.updateTextFields();
+      // var elems = document.querySelectorAll('select');
+      // var instances = M.FormSelect.init(elems, {
+      //   // specify options here
+      // });
+
+      // Init of textarea
+      var elems61 = document.getElementById('descrText');
+      // console.log(elems61);
+      M.CharacterCounter.init(elems61);
+
+    });
+
+
+
+    // Select Field
+
+    const fieldSelect = document.getElementById('fldSelId');
+    const subFieldSelect = document.getElementById('sub-fldSelId');
+
+    fieldSelect.addEventListener('change', e => {
+      // console.log(e.target.value);
+      const selectedField = e.target.value;
+
+      //reset
+      subFieldSelect.innerHTML = '<option value="" disabled selected>Choose Subfield</option>';
+
+      // !!!! TODO do it better, and dont forget CHAGE ON PROD !!!!!
+      fetch(`http://localhost:8000/topics/create/subfld-json/${selectedField}/`)
+        .then(resp => {
+          if (resp.ok) {
+            // some fanky js style data processing to extract proper fomat (json)
+            return resp.json().then((data) => {
+
+              const subFieldData = data.data
+              subFieldData.map(item => {
+                const optn = document.createElement('option')
+                optn.textContent = item.name
+                optn.setAttribute('value', item.id)
+                subFieldSelect.appendChild(optn)
+              });
+              subFieldSelect.removeAttribute('disabled');
+            })
+
+          } else {
+            console.log("Status: " + resp.status);
+          }
+        })
+
+    });
+
+
+
+    // Фронтэнд штука сразу грузит пикчу на сервер и возвращает ссылку где она лежит
+    // Show selected pic immediately
+
+    id_image.onchange = evt => {
+
+      console.log('wowaweewa!');
+      // const [file] = clicked.files;
+      // console.log(URL.createObjectURL(file));
+      const [file] = id_image.files
+      if (file) {
+        blah.src = URL.createObjectURL(file)
+      }
+
+      let csrf = document.getElementsByName("csrfmiddlewaretoken")[0].value;
+
+      // upload pic or video to server
+      console.log(file);
+      fetch("http://localhost:8000/topics/upload/" + file.name, {
+          method: "put",
+          credentials: 'same-origin',
+          mode: 'same-origin',
+          headers: {
+            'X-CSRFToken': csrf
+          },
+          body: file
+        })
+        .then(resp => {
+          if (resp.ok) {
+            // location.reload(true);
+            console.log("picture Status: " + resp.status);
+            // console.log(resp.ok);
+            // console.log("------------------------- ");
+            // console.log(resp)
+            return resp.json();
+            // console.log(resp.body);
+            // return resp.ok
+            // let red_url = resp.json();
+            // console.log(red_url);
+            // alert('Redirecting!');
+
+          } else {
+            console.log("picture Status: " + resp.status);
+            console.log(resp);
+            return resp.json();
+          }
+        })
+        .then(dataJson => {
+          // console.log(dataJson);
+          console.log("picture dataJson.file_url", dataJson.file_url);
+          id_image.setAttribute("data-url", dataJson.file_url)
+        })
+
+    };
+
+    // Empty warning on off for textarea
+
+    descrText.onchange = evt => {
+
+      if (descrText.value.length > 159) {
+        descrText.nextElementSibling.nextElementSibling.setAttribute("data-error", 'too long');
+        return;
+      } else if (descrText.value.length < 8) {
+        descrText.nextElementSibling.nextElementSibling.setAttribute("data-error", 'add some meaningful description');
+
+        // console.log('fffffff2222222');
+        descrText.classList.add("invalid");
+      } else {
+        descrText.classList.remove("invalid");
+        descrText.classList.add("valid");
+      };
+
+    };
+
+    // Empty warning for select
+
+    /* Add one or more listeners to an element
+     ** @param {DOMElement} element - DOM element to add listeners to
+     ** @param {string} eventNames - space separated list of event names, e.g. 'click change'
+     ** @param {Function} listener - function to attach for each event as a listener
+     */
+    function addListenerMulti(el, s, fn) {
+      s.split(' ').forEach(e => el.addEventListener(e, fn, false));
+    }
+
+    let allSelectRequired = document.querySelectorAll('.required-to-select')
+
+
+    allSelectRequired.forEach((element) => {
+      addListenerMulti(element, 'blur change', () => {
+
+        // console.log(element);
+        // console.log('wttttffffffff')
+        if (!element.value.length) {
+          // element.nextElementSibling.nextElementSibling.setAttribute("data-error",'make a choise');
+          element.classList.add("invalid");
+          return;
+        } else {
+          // console.log('fffffff2222222');
+          element.classList.remove("invalid");
+          element.classList.add("valid");
+        };
+
+      })
+    });
+
+
+
+
+
+
+
+    //
+    // -=!!!!!!!!!  CREATE topic button js  !!!!!!!!!!=-
+    //
+
+
+    const createBtn = document.getElementById('topic-create-btn');
+
+
+    createBtn.addEventListener('click', e => {
+
+      event.preventDefault();
+
+
+
+
+      const csrf = document.getElementsByName('csrfmiddlewaretoken')[0].value;
+
+      const topicName = document.getElementById('topicInputId').value;
+      let fieldName = document.getElementById('fldSelId').value;
+      let subFieldName = document.getElementById('sub-fldSelId').value;
+      let customFieldName = document.getElementById('customfield_name').value;
+      let picValue = id_image.getAttribute("data-url");
+      console.log("picValue", picValue);
+      let descriptionValue = descrText.value;
+      let attendingValue = attend_type.value;
+      let frequencyValue = frequency.value;
+      let locationDescrValue = location_descr.value;
+      // let timeZoneValue = time_zone.value;
+      let languageValue = language.value;
+      let participantsNumberValue = participants_number.value;
+      let timeZoneValue = time_zone.value
+
+      // check is mandatory fields filled (my ugly version)
+
+      if (!(topicInputId.value.length &&
+          descrText.value.length &&
+          fieldName &&
+          subFieldName &&
+          attendingValue &&
+          frequencyValue &&
+          locationDescrValue &&
+          languageValue &&
+          participantsNumberValue
+          // && timeZoneValue
+        )) {
+        // if (topicInputId.classList.add("invalid");
+        if (!topicInputId.value.length) {
+          topicInputId.classList.add("invalid")
+        };
+        if (descrText.value.length < 6) {
+          descrText.classList.add("invalid")
+        };
+        if (!fieldName) {
+          document.getElementById('fldSelId').classList.add("invalid")
+        }
+        if (!subFieldName) {
+          document.getElementById('sub-fldSelId').classList.add("invalid")
+        };
+        if (!attendingValue) {
+          attend_type.classList.add("invalid")
+        }
+        if (!frequencyValue) {
+          frequency.classList.add("invalid")
+        }
+        if (!locationDescrValue) {
+          location_descr.classList.add("invalid")
+        };
+        if (!languageValue) {
+          language.classList.add("invalid")
+        }
+        if (!participantsNumberValue) {
+          participants_number.classList.add("invalid")
+        }
+        // if (!timeZoneValue) {time_zone.classList.add("invalid")};
+        // console.log('ssddfffff')
+
+        if (!topicInputId.value.length) {
+          topicInputId.parentElement.parentElement.
+          scrollIntoView({
+            behavior: "smooth",
+          })
+          return;
+        };
+        if (descrText.value.length < 6) {
+          descrText.parentElement.parentElement.previousElementSibling.
+          scrollIntoView({
+            behavior: "smooth",
+          })
+          return;
+        };
+        if (!fieldName) {
+          document.getElementsByClassName("taxonomyselect")[0].
+          scrollIntoView({
+            behavior: "smooth",
+          })
+          return;
+        };
+        if (!subFieldName) {
+          document.getElementsByClassName("taxonomyselect")[0].
+          scrollIntoView({
+            behavior: "smooth",
+          })
+          return;
+        };
+        if (!attendingValue) {
+          document.getElementsByClassName("reuniontype")[0].
+          scrollIntoView({
+            behavior: "smooth",
+          })
+          return;
+        };
+        if (!frequencyValue) {
+          document.getElementsByClassName("scheudule")[0].
+          scrollIntoView({
+            behavior: "smooth",
+          })
+          return;
+        };
+        if (!locationDescrValue) {
+          document.getElementsByClassName("place-orand-timezone")[0].
+          scrollIntoView({
+            behavior: "smooth",
+          })
+          return;
+        };
+
+        if (!languageValue) {
+
+          document.getElementsByClassName("topic-lang")[0].
+          scrollIntoView({
+            behavior: "smooth",
+          })
+          return;
+        };
+
+        if (!participantsNumberValue) {
+
+          document.getElementsByClassName("participants-quantity")[0].
+          scrollIntoView({
+            behavior: "smooth",
+          })
+          return;
+        };
+      }
+
+      const data = JSON.stringify({
+        'title': topicName,
+        'description': descriptionValue,
+        'location': locationDescrValue,
+        'topic_image': picValue,
+        'time_zone': timeZoneValue,
+        // 'location_country': ,
+        'attending_type': attendingValue,
+        'nuber_of_participants': participantsNumberValue,
+        'language': languageValue,
+        'schedule_freq': frequencyValue,
+        'field': fieldName,
+        'subfield': subFieldName,
+        'custom_field': customFieldName,
+      })
+
+
+
+      // subFieldSelect.innerHTML = '<option value="" disabled selected>Choose Subfield</option>';
+
+      fetch('http://localhost:8000/topics/add_topic_api/{{ object.id }}', {
+
+          {
+            %
+            if object %
+          }
+          method: 'PUT',
+          {
+            %
+            else %
+          }
+          method: 'POST',
+          {
+            %
+            endif %
+          }
+
+          credentials: 'same-origin',
+          headers: {
+            'Content-Type': 'application/json',
+            // "Content-type": "application/x-www-form-urlencoded; charset=UTF-8",
+            'X-CSRFToken': csrf
+          },
+          body: data
+        })
+        .then(resp => {
+          if (resp.ok) {
+            console.log("good Status: " + resp.status);
+
+            return resp.json().then((data) => {
+
+              // data is already json object in this case eg {"value": -1, "count": 0}
+              console.log(data)
+              window.location.replace(`/topics/${data}/`)
+              // const obj = JSON.parse(data)
+              // const likeNum = document.getElementById('likes_number');
+              // const likeHeart = document.getElementById('topic-like-btn');
+              // const likeValue = data.value;
+              // likeNum.innerHTML = data.count;
+
+              // // console.log(data.value)
+
+              // if (likeValue == -1) {
+              //   likeHeart.innerHTML = 'favorite_outline';
+              //   likeHeart.classList.remove('red-text');
+              // }
+              // else if (likeValue == 1) {
+              //   likeHeart.innerHTML = 'favorite';
+              //   likeHeart.classList.add('red-text');
+              // }
+
+            })
+
+          } else {
+            console.log("Status: " + resp.status);
+
+            if (!topicInputId.value.length) {
+              topicInputId.classList.add("invalid");
+              console.log('ssddfffff')
+              topicInputId.parentElement.parentElement.
+              scrollIntoView({
+                behavior: "smooth",
+              });
+            };
+            if (!descrText.value.length) {
+              descrText.nextElementSibling.nextElementSibling.setAttribute("data-error", 'add some meaningful description');
+              descrText.classList.add("invalid");
+              descrText.parentElement.parentElement.previousElementSibling.
+              scrollIntoView({
+                behavior: "smooth",
+              });
+            };
+
+
+            // if(!dateEl.value.length) {
+            //  dateEl.classList.add("invalid");;
+            // };
+
+            // topicInputId.parentElement.parentElement.
+            //       scrollIntoView({
+            //         behavior: "smooth",
+            //       });
+
+            return resp.json()
+          }
+        })
+
+    });
+  </script>
+{% endblock inline_javascript %}

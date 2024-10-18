@@ -1,0 +1,203 @@
+{% load static i18n %}
+
+<!DOCTYPE html>
+<!--_ _  __
+   ( | )/_/
+__( >O< )
+\_\(_|_) lbtf
+-->
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <title>
+      {% block title %}
+        locbtf
+      {% endblock title %}
+    </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="first sample of lbtf site" />
+    <meta name="author" content="ar73m aka partydude" />
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
+<![endif]-->
+    <link rel="icon" href="{% static 'images/favicons/favicon.ico' %}" />
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+    {% block css %}
+      <!-- Latest compiled and minified Bootstrap CSS -->
+      <!--link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"-->
+      <!-- Your stuff: Third-party CSS libraries go here -->
+      <!-- Compiled and minified CSS materializecss OF MINE -->
+      <link rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/@materializecss/materialize@1.1.0-alpha/dist/css/materialize.min.css" />
+      <!-- This file stores project-specific CSS -->
+      <link href="{% static 'css/project.css' %}" rel="stylesheet" />
+    {% endblock %}
+    <!-- Le javascript
+    ================================================== -->
+    {# Placed at the top of the document so pages load faster with defer #}
+    {% block javascript %}
+      <!-- Bootstrap JS and its dependencies-->
+      <script defer
+              src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+              integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+              crossorigin="anonymous"></script>
+      <script defer
+              src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+              integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+              crossorigin="anonymous"></script>
+      <script defer
+              src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+              integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+              crossorigin="anonymous"></script>
+      <!-- Your stuff: Third-party javascript libraries go here -->
+      <!-- Compiled and minified JavaScript -->
+      <script defer
+              src="https://cdn.jsdelivr.net/npm/@materializecss/materialize@1.1.0-alpha/dist/js/materialize.min.js"></script>
+      <!-- place project specific Javascript in this file -->
+      <script defer src="{% static 'js/project.js' %}"></script>
+    {% endblock javascript %}
+  </head>
+  <body>
+    <nav class="light-blue lighten-1" role="navigation">
+      <div class="nav-wrapper container">
+        <a id="logo-container" class="brand-logo" href="{% url 'home' %}">lbtf</a>
+        <ul class="right hide-on-med-and-down">
+          <li>
+            <a href="#">NavLink</a>
+          </li>
+          <li>
+            <a href="{% url 'home' %}">Home</a>
+          </li>
+          <li>
+            <a href="{% url 'about' %}">About</a>
+          </li>
+          {% if request.user.is_authenticated %}
+            {# URL provided by django-allauth/account/urls.py #}
+            <li>
+              <a href="{% url 'users:detail' request.user.username %}">{% translate "My Profile" %}</a>
+            </li>
+            {# URL provided by django-allauth/account/urls.py #}
+            <li>
+              <a href="{% url 'account_logout' %}">{% translate "Sign Out" %}</a>
+            </li>
+          {% else %}
+            {# URL provided by django-allauth/account/urls.py #}
+            <li>
+              <a href="{% url 'account_signup' %}">{% translate "Sign Up" %}</a>
+            </li>
+            <li>
+              <a href="{% url 'account_login' %}">{% translate "Sign In" %}
+              </li>
+            {% endif %}
+          </ul>
+          <ul id="nav-mobile" class="sidenav">
+            <li>
+              <a href="#">Nav Link</a>
+            </li>
+            <li>
+              <a href="{% url 'home' %}">Home</a>
+            </li>
+            <li>
+              <a href="{% url 'about' %}">About</a>
+            </li>
+            {% if request.user.is_authenticated %}
+              {# URL provided by django-allauth/account/urls.py #}
+              <li>
+                <a href="{% url 'users:detail' request.user.username %}">{% translate "My Profile" %}</a>
+              </li>
+              {# URL provided by django-allauth/account/urls.py #}
+              <li>
+                <a href="{% url 'account_logout' %}">{% translate "Sign Out" %}</a>
+              </li>
+            {% else %}
+              {# URL provided by django-allauth/account/urls.py #}
+              <li>
+                <a href="{% url 'account_signup' %}">{% translate "Sign Up" %}</a>
+              </li>
+              <li>
+                <a href="{% url 'account_login' %}">{% translate "Sign In" %}
+                </li>
+              {% endif %}
+            </ul>
+            <a href="#" data-target="nav-mobile" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+          </div>
+        </nav>
+        <!-- MYYYŸYYYYYYYYYYYYYYYYYYYYY -->
+        <header class="main-page-wraper">
+          <!-- NAVBAR -->
+          <nav id="mainNav" class="white black-text z-depth-0">
+            <div class="nav-wraper container">
+              <ul class="brand-logo center black-text">
+                <li>
+                  <a id="main-logo" href="/" class="black-text">
+                    <pre id="main-logo" style="font-family: Fixed, Lucida Console, Andale Mono, Courier New, Courier, monospace; font-size: 10pt; line-height: 110%; letter-spacing: 0pt; margin: 0px; overflow: visible;">
+ _ _     _    __
+| | |__ | |_ / _|
+| | '_ \| __| |_
+| | |_) | |_|  _|
+|_|_.__/ \__|_|
+</pre></a>
+                  </li>
+                </ul>
+                <!-- Left -->
+                <ul id="nav-mobile-left" class="left">
+                  {% if request.user.is_authenticated %}
+                    <li>
+                      <a href="#" class="btn-flat black-text fireside-left"><i class="material-icons left ">account_circle</i><span class="hide-on-small-only">мой аккаунт</span></a>
+                    </li>
+                  {% else %}
+                    <li>
+                      <a href="#modal4"
+                         class="btn-flat black-text modal-trigger"
+                         id="register"><i class="material-icons left hide-on-small-only">perm_identity</i>Войти</a>
+                    </li>
+                  {% endif %}
+                </ul>
+                <!-- Right -->
+                <ul id="nav-mobile-right" class="right">
+                  {% block buyorchart %}
+                    <li>
+                      <a href="#" class="btn btn-flat black-text z-depth-0 fireside-bask">
+                        <i class="material-icons left">card_travel</i><span class="hide-on-small-only ">Корзина</span>
+                      </a>
+                    </li>
+                  {% endblock buyorchart %}
+                </ul>
+              </div>
+            </nav>
+          </div>
+        </div>
+      </nav>
+    </header>
+    <!--  Scripts-->
+    <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <!--script src="../../bin/materialize.js"></script -->
+    <!--script src="js/init.js"></script -->
+    <div class="sidenav-overlay"></div>
+    <div class="drag-target"></div>
+    <div class="container">
+      {% if messages %}
+        {% for message in messages %}
+          <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">
+            {{ message }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+        {% endfor %}
+      {% endif %}
+      {% block content %}
+        <p>Use this document as a way to quick start any new project ff .</p>
+      {% endblock content %}
+    </div>
+    <!-- /container -->
+    {% block modal %}
+    {% endblock modal %}
+    {% block inline_javascript %}
+      {# Script tags with only code, no src (defer by default) #}
+    {% endblock inline_javascript %}
+  </body>
+</html>
